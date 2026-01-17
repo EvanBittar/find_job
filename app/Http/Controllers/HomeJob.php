@@ -11,14 +11,4 @@ class HomeJob extends Controller
     {
         return view('home');
     }
-
-    public function login()
-    {
-        return view('log-reg.login');
-    }
-    public function register()
-    {
-        return view('log-reg.register');
-    }
-
 }

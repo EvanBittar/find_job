@@ -3,11 +3,18 @@
 use App\Http\Controllers\HomeJob;
 use App\Http\Controllers\jobContorller;
 use App\Http\Controllers\accountController;
+use App\Http\Controllers\RegisterUserController;
+use App\Http\Controllers\SessionCollector;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/',[HomeJob::class,'index']); 
-Route::get('/login',[HomeJob::class,'login']);
-Route::get('/register',[HomeJob::class,'register']); 
+
+Route::get('/login',[SessionCollector::class,'login']);
+Route::post('/login',[SessionCollector::class,'store']);
+
+Route::get('/register',[RegisterUserController::class,'register']); 
+Route::post('/register',[RegisterUserController::class,'store']);
 
 Route::get('/jobs',[jobContorller::class,'jobs']); 
 Route::get('/job-detail',[jobContorller::class,'jobDetail']); 

@@ -14,8 +14,12 @@
                     <a class="nav-link" aria-current="page" href="jobs">Find Jobs</a>
                 </li>
             </ul>
-            <a class="btn btn-outline-primary me-2" href="login" type="submit">Login</a>
-            <a class="btn btn-primary" href="post-job" type="submit">Post a Job</a>
+            @auth
+                <a class="btn btn-primary" href="post-job" type="submit">Post a Job</a>
+            @endauth
+            @guest
+                <a class="btn btn-outline-primary me-2" href="login" type="submit">Login</a>
+            @endguest
         </div>
     </div>
 </nav>

@@ -5,32 +5,31 @@
         <div class="row d-flex justify-content-center">
             <div class="col-md-5">
                 <div class="card shadow border-0 p-5">
-                    <h1 class="h3">Register</h1>
-                    <form action="">
-                        <div class="mb-3">
-                            <label for="" class="mb-2">Name*</label>
-                            <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
-                        </div> 
+                    <h1 class="h3">Login</h1>
+                    <form action="" method="post">
+                        @csrf
                         <div class="mb-3">
                             <label for="" class="mb-2">Email*</label>
-                            <input type="text" name="email" id="email" class="form-control" placeholder="Enter Email">
+                            <input type="text" name="email" id="email" class="form-control" value="{{old('email')}}" placeholder="example@example.com">
+                            <x-form-error name="email"/>
                         </div> 
                         <div class="mb-3">
                             <label for="" class="mb-2">Password*</label>
-                            <input type="password" name="name" id="name" class="form-control" placeholder="Enter Password">
+                            <input type="password" name="password" id="password" class="form-control"  placeholder="Enter Password">
+                            <x-form-error name="password"/>
                         </div> 
-                        <div class="mb-3">
-                            <label for="" class="mb-2">Confirm Password*</label>
-                            <input type="password" name="name" id="name" class="form-control" placeholder="Enter Password">
-                        </div> 
-                        <button class="btn btn-primary mt-2">Register</button>
+                        <div class="justify-content-between d-flex">
+                        <button class="btn btn-primary mt-2">Login</button>
+                            <a href="forgot-password" class="mt-3">Forgot Password?</a>
+                        </div>
                     </form>                    
                 </div>
                 <div class="mt-4 text-center">
-                    <p>Have an account? <a  href="login">Login</a></p>
+                    <p>Do not have an account? <a  href="register">Register</a></p>
                 </div>
             </div>
         </div>
+        <div class="py-lg-5">&nbsp;</div>
     </div>
 </section>
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -57,17 +56,6 @@
   </div>
 </div>
 
-<footer class="bg-dark py-3 bg-2">
-<div class="container">
-    <p class="text-center text-white pt-3 fw-bold fs-6">© 2023 xyz company, all right reserved</p>
-</div>
-</footer> 
-<script src="assets/js/jquery-3.6.0.min.js"></script>
-<script src="assets/js/bootstrap.bundle.5.1.3.min.js"></script>
-<script src="assets/js/instantpages.5.1.0.min.js"></script>
-<script src="assets/js/lazyload.17.6.0.min.js"></script>
-<script src="assets/js/slick.min.js"></script>
-<script src="assets/js/lightbox.min.js"></script>
-<script src="assets/js/custom.js"></script>
-</body>
-</html>
+<x-footer>
+    © 2026 xyz company, all right reserved
+</x-footer>

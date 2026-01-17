@@ -1,68 +1,36 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en_AU" >
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>CareerVibe | Find Best Jobs</title>
-	<meta name="description" content="" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no" />
-	<meta name="HandheldFriendly" content="True" />
-	<meta name="pinterest" content="nopin" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-	<!-- Fav Icon -->
-	<link rel="shortcut icon" type="image/x-icon" href="#" />
-</head>
-<body data-instant-intensity="mousedown">
-<header>
-	<nav class="navbar navbar-expand-lg navbar-light bg-white shadow py-3">
-		<div class="container">
-			<a class="navbar-brand" href="/">CareerVibe</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ms-0 ms-sm-0 me-auto mb-2 mb-lg-0 ms-lg-4">
-					<li class="nav-item">
-						<a class="nav-link" aria-current="page" href="/">Home</a>
-					</li>	
-					<li class="nav-item">
-						<a class="nav-link" aria-current="page" href="jobs">Find Jobs</a>
-					</li>										
-				</ul>				
-				<a class="btn btn-outline-primary me-2" href="login" type="submit">Login</a>
-				<a class="btn btn-primary" href="post-job" type="submit">Post a Job</a>
-			</div>
-		</div>
-	</nav>
-</header>
+<x-header title="Find Dream Jobs"/>
 <section class="section-5">
     <div class="container my-5">
         <div class="py-lg-2">&nbsp;</div>
         <div class="row d-flex justify-content-center">
             <div class="col-md-5">
                 <div class="card shadow border-0 p-5">
-                    <h1 class="h3">Login</h1>
-                    <form action="account" method="post">
+                    <h1 class="h3">Register</h1>
+                    <form action="">
+                        <div class="mb-3">
+                            <label for="" class="mb-2">Name*</label>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
+                        </div> 
                         <div class="mb-3">
                             <label for="" class="mb-2">Email*</label>
-                            <input type="text" name="email" id="email" class="form-control" placeholder="example@example.com">
+                            <input type="text" name="email" id="email" class="form-control" placeholder="Enter Email">
                         </div> 
                         <div class="mb-3">
                             <label for="" class="mb-2">Password*</label>
                             <input type="password" name="name" id="name" class="form-control" placeholder="Enter Password">
                         </div> 
-                        <div class="justify-content-between d-flex">
-                        <button class="btn btn-primary mt-2">Login</button>
-                            <a href="forgot-password" class="mt-3">Forgot Password?</a>
-                        </div>
+                        <div class="mb-3">
+                            <label for="" class="mb-2">Confirm Password*</label>
+                            <input type="password" name="name" id="name" class="form-control" placeholder="Enter Password">
+                        </div> 
+                        <button class="btn btn-primary mt-2">Register</button>
                     </form>                    
                 </div>
                 <div class="mt-4 text-center">
-                    <p>Do not have an account? <a  href="register">Register</a></p>
+                    <p>Have an account? <a  href="login">Login</a></p>
                 </div>
             </div>
         </div>
-        <div class="py-lg-5">&nbsp;</div>
     </div>
 </section>
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

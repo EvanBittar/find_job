@@ -26,3 +26,6 @@ Route::get('/saved-jobs',[jobContorller::class,'savedJob']);
 Route::get('/account',[accountController::class,'account']);
 Route::get('/my-jobs',[accountController::class,'myJob']);
 
+Route::put('/account/update-password', [accountController::class, 'updatePassword'])->name('account.updatePassword');
+Route::put('/account/update-profile', [accountController::class, 'updateProfile'])->name('account.updateProfile');
+Route::put('/account/update-image', [accountController::class, 'updateImage'])->name('account.updateImage');

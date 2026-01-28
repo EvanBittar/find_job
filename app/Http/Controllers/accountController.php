@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Job;
 use Illuminate\Support\Facades\Hash;
 
 class accountController extends Controller
@@ -55,6 +56,10 @@ class accountController extends Controller
     }
     public function myJob()
     {
-        return View('account.my-jobs');
+        $jobs = Job::where('user_id',1)->orderBy('created_at', 'DESC')->get();
+        
+        $user = User::find(1);
+
+        return View('account.my-jobs',compact('user','jobs'));
     }
 }

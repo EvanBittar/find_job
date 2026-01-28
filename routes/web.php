@@ -18,14 +18,16 @@ Route::post('/register',[RegisterUserController::class,'store']);
 
 Route::get('/jobs',[jobContorller::class,'jobs']); 
 Route::get('/job-detail',[jobContorller::class,'jobDetail']); 
-Route::get('/post-job',[jobContorller::class,'postJob']); 
+Route::get('/post-job',[jobContorller::class,'postJob'])->name('postJob'); 
 Route::get('/job-applied',[jobContorller::class,'jobApplied']);
 Route::get('/saved-jobs',[jobContorller::class,'savedJob']);
 
 
 Route::get('/account',[accountController::class,'account']);
-Route::get('/my-jobs',[accountController::class,'myJob']);
+Route::get('/my-jobs',[accountController::class,'myJob'])->name('mtJobs');
 
 Route::put('/account/update-password', [accountController::class, 'updatePassword'])->name('account.updatePassword');
 Route::put('/account/update-profile', [accountController::class, 'updateProfile'])->name('account.updateProfile');
 Route::put('/account/update-image', [accountController::class, 'updateImage'])->name('account.updateImage');
+
+Route::post('/post-job',[jobContorller::class,'saveJob'])->name('saveJob');

@@ -96,12 +96,5 @@ class accountController extends Controller
         return back()->with('error', 'Please select an image.');
     }
 
-    public function myJob()
-    {
-        $jobs = Job::where('user_id', 1)->orderBy('created_at', 'DESC')->get();
 
-        $user = User::find(1);
-
-        return View('account.my-jobs', compact('user', 'jobs'));
-    }
 }

@@ -21,11 +21,11 @@ Route::get('/job-detail',[jobContorller::class,'jobDetail']);
 Route::get('/post-job',[jobContorller::class,'postJob'])->name('postJob'); 
 Route::get('/job-applied',[jobContorller::class,'jobApplied']);
 Route::get('/saved-jobs',[jobContorller::class,'savedJob']);
-
+Route::get('/my-jobs',[jobContorller::class,'myJob'])->name('job.myJob');
+Route::put('/my-jobs/update/{id}',[jobContorller::class,'updateJob'])->name('job.updateJob');
+Route::delete('/my-jobs/delete/{id}',[jobContorller::class,'deleteJob'])->name('job.deleteJob');
 
 Route::get('/account',[accountController::class,'account']);
-Route::get('/my-jobs',[accountController::class,'myJob'])->name('mtJobs');
-
 Route::put('/account/update-password', [accountController::class, 'updatePassword'])->name('account.updatePassword');
 Route::put('/account/update-profile', [accountController::class, 'updateProfile'])->name('account.updateProfile');
 Route::put('/account/update-image', [accountController::class, 'updateImage'])->name('account.updateImage');

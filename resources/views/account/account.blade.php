@@ -15,8 +15,8 @@
             <div class="col-lg-3">
                 <div class="card border-0 shadow mb-4 p-3">
                     <div class="s-body text-center mt-3">
-                        <img src="assets/assets/images/avatar7.png" alt="avatar" class="rounded-circle img-fluid"
-                            style="width: 150px;">
+                    <img src="{{ ($user->image) ? asset('uploads/profile/'.$user->image) : asset('assets/images/avatar7.png') }}" 
+                        class="rounded-circle img-fluid" style="width: 150px;">
                         <h5 class="mt-3 pb-0">{{ $user->name }}</h5>
                         <p class="text-muted mb-1 fs-6">{{ $user->designation }}</p>
                         <div class="d-flex justify-content-center mb-2">
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <x-list>
+                <x-list/>
             </div>
             <div class="col-lg-9">
                 <div class="card border-0 shadow mb-4">
@@ -105,12 +105,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('account.updateImage') }}" method="POST">
+                <form action="{{ route('account.updateImage') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Profile Image</label>
                         <input type="file" class="form-control" id="image" name="image">
+                    @if ($errors->has('image'))
+                        <span class="text-danger small">{{ $errors->first('image') }}</span>
+                    @endif
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary mx-3">Update</button>

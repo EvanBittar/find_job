@@ -15,7 +15,7 @@
                 </li>
             </ul>
             @auth
-                <a class="btn btn-primary" href="post-job" type="submit">Post a Job</a>
+                <a class="btn btn-primary" href="/post-job" type="submit">Post a Job</a>
             @endauth
             @guest
                 <a class="btn btn-outline-primary me-2" href="login" type="submit">Login</a>

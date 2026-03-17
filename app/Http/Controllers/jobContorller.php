@@ -12,9 +12,10 @@ class jobContorller extends Controller
     {
         return view('job.jobs');
     }
-    public function jobDetail()
+    public function jobDetail($id)
     {
-        return view('job.job-detail');
+        $job=Job::findOrFail($id);
+        return view('job.job-detail', compact('job'));
     }
 
     public function postJob()
@@ -56,7 +57,8 @@ class jobContorller extends Controller
     }
     public function myJob()
     {
-        $jobs = Job::where('user_id', 1)->orderBy('created_at', 'DESC')->get();
+        $jobs = Job::where('user_id', 1)->orderBy('created_at', 'DESC')->paginate(10);
+        
         $user = User::find(1); // Assuming you want to fetch the user with ID 1
         return View('account.my-jobs', compact('user', 'jobs'));
     }

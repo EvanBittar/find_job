@@ -24,6 +24,7 @@ Route::get('/saved-jobs',[jobContorller::class,'savedJob']);
 Route::get('/my-jobs',[jobContorller::class,'myJob'])->name('job.myJob');
 Route::get('/my-jobs/edit/{id}',[jobContorller::class,'editJob'])->name('job.editJob');
 Route::put('/my-jobs/update/{id}',[jobContorller::class,'updateJob'])->name('job.updateJob');
+Route::delete('/my-jobs/delete/{id}',[jobContorller::class,'deleteJob'])->name('job.deleteJob');
 
 Route::get('/account',[accountController::class,'account']);
 Route::put('/account/update-password', [accountController::class, 'updatePassword'])->name('account.updatePassword');

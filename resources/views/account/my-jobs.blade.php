@@ -69,9 +69,17 @@
                                                             <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                         </a>
                                                         <ul class="dropdown-menu dropdown-menu-end">
-                                                            <li><a class="dropdown-item" href="{{ route('job.detail', $job->id) }}"><i class="fa fa-eye"></i> View</a></li>
+                                                            <li><a class="dropdown-item" href="{{ route('jobDetail', $job->id) }}"><i class="fa fa-eye"></i> View</a></li>
                                                             <li><a class="dropdown-item" href="{{ route('job.editJob', $job->id) }}"><i class="fa fa-edit"></i> Edit</a></li>
-                                                            <li><a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Remove</a></li>
+                                                            <li>
+                                                                <form action="{{ route('job.deleteJob', $job->id) }}" method="POST" id="delete-form-{{ $job->id }}">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to delete this job?')">
+                                                                        <i class="fa fa-trash"></i> Remove
+                                                                    </button>
+                                                                </form>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -84,6 +92,9 @@
                                     @endif
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="mt-3">
+                            {{ $jobs->links() }}
                         </div>
                     </div>
                 </div> 

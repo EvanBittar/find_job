@@ -69,8 +69,8 @@
                                                             <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                         </a>
                                                         <ul class="dropdown-menu dropdown-menu-end">
-                                                            <li><a class="dropdown-item" href="{{ route('job.editJob' , '$job->id') }}"><i class="fa fa-eye"></i> View</a></li>
-                                                            <li><a class="dropdown-item" href="#"><i class="fa fa-edit"></i> Edit</a></li>
+                                                            <li><a class="dropdown-item" href="{{ route('job.detail', $job->id) }}"><i class="fa fa-eye"></i> View</a></li>
+                                                            <li><a class="dropdown-item" href="{{ route('job.editJob', $job->id) }}"><i class="fa fa-edit"></i> Edit</a></li>
                                                             <li><a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Remove</a></li>
                                                         </ul>
                                                     </div>

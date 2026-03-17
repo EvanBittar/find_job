@@ -24,7 +24,6 @@ class jobContorller extends Controller
     }
     public function saveJob(Request $request)
     {
-        // 1. التحقق من البيانات (Validation)
         $request->validate([
             'title' => 'required|max:200',
             'category' => 'required',
@@ -35,32 +34,30 @@ class jobContorller extends Controller
             'company_name' => 'required',
         ]);
 
-        // 2. الحفظ في قاعدة البيانات
         Job::create([
             'title' => $request->title,
             'category' => $request->category,
             'job_nature' => $request->job_nature,
             'vacancy' => $request->vacancy,
             'salary' => $request->salary,
-            'location' => $request->location, // موقع الوظيفة
+            'location' => $request->location,
             'description' => $request->description,
             'benefits' => $request->benefits,
             'responsibility' => $request->responsibility,
             'qualifications' => $request->qualifications,
             'keywords' => $request->keywords,
             'company_name' => $request->company_name,
-            'company_location' => $request->company_location, // موقع الشركة
+            'company_location' => $request->company_location,
             'company_website' => $request->website,
             'user_id' => 1
         ]);
 
-        // 3. العودة مع رسالة نجاح
         return back()->with('success', 'Job has been posted successfully!');
     }
     public function myJob()
     {
         $jobs = Job::where('user_id', 1)->orderBy('created_at', 'DESC')->get();
-        $user = User::find(1);
+        $user = User::find(1); // Assuming you want to fetch the user with ID 1
         return View('account.my-jobs', compact('user', 'jobs'));
     }
     public function updateJob(Request $request, $id)
@@ -99,6 +96,13 @@ class jobContorller extends Controller
         ]);
 
         return back()->with('success', 'Job updated successfully!');
+    }
+    public function editJob($id)
+    {
+        $job = Job::where(['id' => $id, 'user_id' => 1])->firstOrFail(); // Ensure the job belongs to the user 
+        $user = User::find(1);
+
+        return view('job.edit', compact('job', 'user'));
     }
     public function deleteJob($id)
     {

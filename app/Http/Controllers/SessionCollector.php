@@ -31,4 +31,10 @@ class SessionCollector extends Controller
 
         return redirect('/');
     }
+ // داخل SessionCollector.php
+    public function logout()
+    {
+        auth()->logout();
+        return redirect()->route('login')->with('success', 'Logged out successfully!');
+    }
 }

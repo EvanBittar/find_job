@@ -20,7 +20,7 @@ class jobContorller extends Controller
 
     public function postJob()
     {
-        $user = \App\Models\User::find(1);
+        $user = auth()->user();
         return view('job.post-job', compact('user'));
     }
     public function saveJob(Request $request)
@@ -59,7 +59,7 @@ class jobContorller extends Controller
     {
         $jobs = Job::where('user_id', 1)->orderBy('created_at', 'DESC')->paginate(10);
         
-        $user = User::find(1); // Assuming you want to fetch the user with ID 1
+        $user = auth()->user(); // Assuming you want to fetch the authenticated user
         return View('account.my-jobs', compact('user', 'jobs'));
     }
     public function updateJob(Request $request, $id)
@@ -102,7 +102,7 @@ class jobContorller extends Controller
     public function editJob($id)
     {
         $job = Job::where(['id' => $id, 'user_id' => 1])->firstOrFail(); // Ensure the job belongs to the user 
-        $user = User::find(1);
+        $user = auth()->user();
 
         return view('job.edit', compact('job', 'user'));
     }

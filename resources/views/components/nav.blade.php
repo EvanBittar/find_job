@@ -14,11 +14,16 @@
                     <a class="nav-link" aria-current="page" href="jobs">Find Jobs</a>
                 </li>
             </ul>
-            @auth
-                <a class="btn btn-primary" href="/post-job" type="submit">Post a Job</a>
-            @endauth
             @guest
-                <a class="btn btn-outline-primary me-2" href="login" type="submit">Login</a>
+                <a href="{{ route('login') }}" class="btn btn-outline-primary me-2">Login</a>
+                <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+            @else
+                <a href="{{ route('postJob') }}" class="btn btn-primary">Post a Job</a>
+                
+                <form action="{{ route('logout') }}" method="POST" class="d-inline ms-2">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
             @endguest
         </div>
     </div>

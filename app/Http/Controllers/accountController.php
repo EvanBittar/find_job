@@ -12,12 +12,12 @@ class accountController extends Controller
 {
     public function account()
     {
-        $user = \App\Models\User::find(1);
+        $user = auth()->user();
         return View('account.account', compact('user'));
     }
     public function updateProfile(Request $request)
     {
-        $user = User::find(1);
+        $user = auth()->user();
 
         $request->validate([
             'name' => 'required|min:3',
@@ -39,7 +39,7 @@ class accountController extends Controller
     public function updatePassword(Request $request)
     {
 
-        $user = User::find(1);
+        $user = auth()->user();
 
         $attributes = request()->validate([
             'old_password' => ['required', 'max:25'],

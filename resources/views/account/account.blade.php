@@ -16,7 +16,6 @@
                 <div class="card border-0 shadow mb-4 p-3">
                     <div class="s-body text-center mt-3">
                     <img src="{{ (!empty($user->image)) ? asset('uploads/profile/'.$user->image) : asset('assets/images/avatar7.png') }}" 
-                        alt="avatar" 
                         class="rounded-circle img-fluid" 
                         style="width: 150px; height: 150px; object-fit: cover;">
                         <h5 class="mt-3 pb-0">{{ $user->name }}</h5>
@@ -30,6 +29,17 @@
                 <x-list/>
             </div>
             <div class="col-lg-9">
+                            @if(session('success'))
+                    <div class="alert alert-success border-0 shadow-sm">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                
+                @if(session('error'))
+                    <div class="alert alert-danger border-0 shadow-sm">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <div class="card border-0 shadow mb-4">
                     <form action="{{ route('account.updateProfile') }}" method="POST">
                         @csrf
@@ -39,25 +49,25 @@
                             <div class="mb-4">
                                 <label class="mb-2">Name*</label>
                                 <input type="text" name="name" placeholder="Enter Name" class="form-control"
-                                    value="{{ $user->name ?? old('name') }}">
+                                    value="{{ old('name' , $user->name) }}">
                                 <x-form-error name="name" />
                             </div>
                             <div class="mb-4">
                                 <label class="mb-2">Email*</label>
                                 <input type="text" name="email" placeholder="Enter Email" class="form-control"
-                                    value="{{ $user->email ?? old('email') }}">
+                                    value="{{ old('email' , $user->email) }}">
                                 <x-form-error name="email" />
                             </div>
                             <div class="mb-4">
                                 <label class="mb-2">Designation*</label>
                                 <input type="text" name="designation" placeholder="Designation" class="form-control"
-                                    value="{{  $user->designation ?? old('designation') }}">
+                                    value="{{  old('designation',$user->designation)  }}">
                                 <x-form-error name="designation" />
                             </div>
                             <div class="mb-4">
                                 <label class="mb-2">Mobile*</label>
                                 <input type="text" name="mobile" placeholder="Mobile" class="form-control"
-                                    value="{{ $user->mobile ?? old('mobile') }}">
+                                    value="{{ old('mobile' , $user->mobile) }}">
                                 <x-form-error name="mobile" />
                             </div>
                         </div>
@@ -127,11 +137,6 @@
         </div>
     </div>
 </div>
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 <x-footer>
     © 2026 xyz company, all right reserved
 </x-footer>

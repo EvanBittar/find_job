@@ -48,4 +48,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function appliedJobs()
+    {
+        return $this->belongsToMany(Job::class, 'job_applications')
+                    ->withPivot('applied_date')
+                    ->withTimestamps();
+    }
 }

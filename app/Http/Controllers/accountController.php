@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Job;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 
@@ -12,12 +11,12 @@ class accountController extends Controller
 {
     public function account()
     {
-        $user = auth()->user();
+        $user = Auth::user();
         return View('account.account', compact('user'));
     }
     public function updateProfile(Request $request)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         $request->validate([
             'name' => 'required|min:3',
@@ -39,9 +38,9 @@ class accountController extends Controller
     public function updatePassword(Request $request)
     {
 
-        $user = auth()->user();
+        $user = Auth::user();
 
-        $attributes = request()->validate([
+        $attributes = $request->validate([
             'old_password' => ['required', 'max:25'],
             'new_password' => ['required', 'confirmed', 'min:8', 'max:25'],
         ]);
@@ -66,7 +65,7 @@ class accountController extends Controller
         'image.image' => 'Please upload a valid image file.',
         ]);
 
-        $user = User::find(1);
+        $user = Auth::user();
 
         if ($request->hasFile('image')) {
 

@@ -33,6 +33,7 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/my-jobs/edit/{id}',[jobContorller::class,'editJob'])->name('job.editJob');
     Route::put('/my-jobs/update/{id}',[jobContorller::class,'updateJob'])->name('job.updateJob');
     Route::delete('/my-jobs/delete/{id}',[jobContorller::class,'deleteJob'])->name('job.deleteJob');
+    Route::post('/apply-job', [jobContorller::class, 'applyJob'])->name('applyJob');
     
     Route::post('/post-job',[jobContorller::class,'saveJob'])->name('saveJob');
     Route::get('/job-applied',[jobContorller::class,'jobApplied'])->name('jobApplied');

@@ -38,6 +38,10 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/post-job',[jobContorller::class,'saveJob'])->name('saveJob');
     Route::get('/job-applied',[jobContorller::class,'jobApplied'])->name('jobApplied');
     
+    Route::post('/add-to-favorite', [jobContorller::class, 'addToFavorite'])->name('addToFavorite');
+    Route::get('/my-favorites', [jobContorller::class, 'myFavorites'])->name('myFavorites');
+    Route::post('/remove-favorite', [jobContorller::class, 'removeFavorite'])->name('removeFavorite');
+
     Route::post('/logout',[SessionCollector::class,'logout'])->name('logout');
 });
 

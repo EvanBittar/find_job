@@ -14,7 +14,7 @@ class Job extends Model
         'job_nature', 
         'vacancy', 
         'salary', 
-        'Location', // مطابقة للـ Blade
+        // 'Location', // مطابقة للـ Blade
         'description', 
         'benefits', 
         'responsibility', 

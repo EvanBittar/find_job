@@ -51,7 +51,16 @@ class User extends Authenticatable
     public function appliedJobs()
     {
         return $this->belongsToMany(Job::class, 'job_applications')
-                    ->withPivot('applied_date')
-                    ->withTimestamps();
+            ->withPivot('applied_date')
+            ->withTimestamps();
+    }
+    public function favoriteJobs()
+    {
+        return $this->belongsToMany(Job::class, 'favorites')
+            ->withTimestamps();
+    }
+    public function postedJobs()
+    {
+        return $this->hasMany(Job::class);
     }
 }

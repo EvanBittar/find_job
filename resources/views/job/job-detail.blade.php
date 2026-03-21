@@ -57,10 +57,8 @@
                                         <input type="hidden" name="id" value="{{ $job->id }}">
                                         <button type="submit" class="heart_mark border-0 bg-transparent">
                                             @if($isFavorite)
-                                                {{-- قلب أحمر ممتلئ للإشارة إلى أنه يمكن حذفه --}}
                                                 <i class="fa fa-heart text-danger" style="font-size: 24px;" aria-hidden="true"></i>
                                             @else
-                                                {{-- قلب مفرغ للإشارة إلى أنه يمكن إضافته --}}
                                                 <i class="fa fa-heart-o" style="font-size: 24px;" aria-hidden="true"></i>
                                             @endif
                                         </button>
@@ -104,7 +102,7 @@
 
                         <div class="border-top mt-4 pt-4">
                             @if(Auth::check())
-                                @if(Auth::user()->id == $job->id)
+                                @if(Auth::user()->id == $job->user->id)
                                     <a href="{{ route('job.editJob', $job->id) }}" class="btn btn-primary">
                                         <i class="fa fa-edit"></i> Edit Job
                                     </a>

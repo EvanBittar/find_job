@@ -27,6 +27,7 @@ class JobSeeder extends Seeder
             $city = $cities[array_rand($cities)];
 
             Job::create([
+                'isFeatured' => rand(0, 1), 
                 'title' => 'Senior Laravel Developer ' . $i,
                 'category' => $categories[array_rand($categories)],
                 'job_nature' => $natures[array_rand($natures)],

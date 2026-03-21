@@ -21,7 +21,7 @@ Route::middleware(['guest'])->group(function () {
     
     Route::middleware(['auth'])->group(function () {
     
-    Route::get('/account',[accountController::class,'account']);
+    Route::get('/account',[accountController::class,'account'])->name('account');
     Route::put('/account/update-password', [accountController::class, 'updatePassword'])->name('account.updatePassword');
     Route::put('/account/update-profile', [accountController::class, 'updateProfile'])->name('account.updateProfile');
     Route::put('/account/update-image', [accountController::class, 'updateImage'])->name('account.updateImage');

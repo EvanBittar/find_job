@@ -126,46 +126,46 @@ class jobContorller extends Controller
         return View('job.saved-job');
     }
     public function applyJob(Request $request)
-    {
-        $id = $request->id;
-        $job = Job::where('id', $id)->first();
+{
+    $id = $request->id;
+    $job = Job::where('id', $id)->first();
 
-        // 1. هل الوظيفة موجودة؟
-        if ($job == null) {
-            return response()->json(['status' => false, 'message' => 'Job not found']);
-        }
-
-        // 2. هل المستخدم يحاول التقديم على وظيفته الخاصة؟
-        if ($job->user_id == Auth::user()->id) {
-            return response()->json(['status' => false, 'message' => 'You cannot apply to your own job']);
-        }
-
-        // 3. هل قدم المستخدم على هذه الوظيفة من قبل？
-        $jobApplicationCount = job_applications::where([
-            'user_id' => Auth::user()->id,
-            'job_id' => $id
-        ])->count();
-
-        if ($jobApplicationCount > 0) {
-            return response()->json(['status' => false, 'message' => 'You have already applied to this job']);
-        }
-
-        // 4. حفظ الطلب
-        $application = new job_applications();
-        $application->job_id = $id;
-        $application->user_id = Auth::user()->id;
-        $application->employer_id = $job->user_id;
-        $application->applied_date = now();
-        $application->save();
-
-        return response()->json(['status' => true, 'message' => 'Applied successfully!']);
+    // 1. هل الوظيفة موجودة؟
+    if ($job == null) {
+        return back()->with('error', 'Job not found');
     }
+
+    // 2. منع التقديم على الوظيفة الخاصة
+    if ($job->user_id == Auth::user()->id) {
+        return back()->with('error', 'You cannot apply to your own job');
+    }
+
+    // 3. منع التكرار
+    $jobApplicationCount = job_applications::where([
+        'user_id' => Auth::user()->id,
+        'job_id' => $id
+    ])->count();
+
+    if ($jobApplicationCount > 0) {
+        return back()->with('error', 'You have already applied to this job');
+    }
+
+    // 4. حفظ الطلب
+    $application = new job_applications();
+    $application->job_id = $id;
+    $application->user_id = Auth::user()->id;
+    $application->applied_date = now();
+    $application->save();
+
+    // التوجيه لصفحة الوظائف التي قدم عليها مع رسالة نجاح
+    return redirect()->route('jobApplied')->with('success', 'Applied successfully!');
+}
     public function jobApplied()
     {
         $user = Auth::user();
         
-        $applications = job_applications::where('user_id', Auth::user()->id)
-            ->with(['job', 'job.jobType', 'job.category']) // جلب بيانات الوظيفة معها
+        $applications = job_applications::where('user_id', $user->id)
+            ->with('job') // جلب بيانات الوظيفة معها
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 

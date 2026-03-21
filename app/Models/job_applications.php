@@ -12,7 +12,6 @@ class job_applications extends Model
     protected $fillable = [
         'job_id',
         'user_id',
-        'employed_id',
         'applied_date',
     ];
 

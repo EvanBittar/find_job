@@ -12,16 +12,13 @@ use App\Models\job_applications;
 class jobContorller extends Controller
 {
    public function index(Request $request) {
-    // 1. جلب التصنيفات لعرضها في السايدبار (تأكد من وجود بيانات في جدول jobs)
     $categories = Job::select('category')
         ->distinct()
         ->whereNotNull('category')
         ->get();
 
-    // 2. بدء الاستعلام (Query Builder)
     $jobs = Job::query();
 
-    // 3. فلترة بالكلمة المفتاحية (Keyword)
     if (!empty($request->keyword)) {
         $jobs->where(function($query) use ($request) {
             $query->orWhere('title', 'like', '%' . $request->keyword . '%');
@@ -66,14 +63,25 @@ class jobContorller extends Controller
         $job = Job::where('id',$id)->first();
         if ($job== null)
             return abort(404);
+        
+        $count = 0;
+            if (Auth::check()) {
+            $count = job_applications::where([
+                'user_id' => Auth::user()->id,
+                'job_id' => $id
+            ])->count();
+        }
+
         $isFavorite = false;
         if (Auth::check()){
             $isFavorite = Favorite::where([
+
                 'user_id' => Auth::user()->id,
                  'job_id' => $id
+
                  ])->exists();
         }
-        return view('job.job-detail', compact(['job' , 'isFavorite']));
+        return view('job.job-detail', compact(['job' , 'isFavorite','count']));
 
     }
 
@@ -188,17 +196,14 @@ class jobContorller extends Controller
     $id = $request->id;
     $job = Job::where('id', $id)->first();
 
-    // 1. هل الوظيفة موجودة؟
     if ($job == null) {
         return back()->with('error', 'Job not found');
     }
 
-    // 2. منع التقديم على الوظيفة الخاصة
     if ($job->user_id == Auth::user()->id) {
         return back()->with('error', 'You cannot apply to your own job');
     }
 
-    // 3. منع التكرار
     $jobApplicationCount = job_applications::where([
         'user_id' => Auth::user()->id,
         'job_id' => $id

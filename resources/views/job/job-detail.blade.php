@@ -101,21 +101,19 @@
                         @endif
 
                         <div class="border-top mt-4 pt-4">
-                            @if(Auth::check())
-                                @if(Auth::user()->id == $job->user->id)
-                                    <a href="{{ route('job.editJob', $job->id) }}" class="btn btn-primary">
-                                        <i class="fa fa-edit"></i> Edit Job
-                                    </a>
+                           @if (Auth::check())
+                                @if ($count > 0)
+                                    <button class="btn btn-secondary btn-lg" disabled>Already Applied</button>
                                 @else
                                     <form action="{{ route('applyJob') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $job->id }}">
-                                        <button type="submit" class="btn btn-primary w-100">Apply Now</button>
+                                        <button type="submit" class="btn btn-primary btn-lg w-100">Apply Now</button>
                                     </form>
                                 @endif
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-primary w-100">Login to Apply</a>
-                            @endif
+                                <a href="{{ route('login') }}" class="btn btn-primary btn-lg">Login to Apply</a>
+                        @endif
                         </div>
                     </div>
                 </div>

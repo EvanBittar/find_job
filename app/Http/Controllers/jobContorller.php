@@ -185,14 +185,8 @@ class jobContorller extends Controller
 
         return back()->with('success', 'Job removed successfully!');
     }
-
-
-    public function savedJob()
-    {
-        return View('job.saved-job');
-    }
-    public function applyJob(Request $request)
-{
+    public function applyJob(Request $request){
+    
     $id = $request->id;
     $job = Job::where('id', $id)->first();
 
@@ -220,7 +214,6 @@ class jobContorller extends Controller
     $application->applied_date = now();
     $application->save();
 
-    // التوجيه لصفحة الوظائف التي قدم عليها مع رسالة نجاح
     return redirect()->route('jobApplied')->with('success', 'Applied successfully!');
 }
     public function jobApplied()
@@ -228,14 +221,26 @@ class jobContorller extends Controller
         $user = Auth::user();
         
         $applications = job_applications::where('user_id', $user->id)
-            ->with('job') // جلب بيانات الوظيفة معها
+            ->with('job') 
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
         return view('job.job-applied', compact('applications', 'user'));
     }
-    // 1. إضافة للمفضلة
-public function addToFavorite(Request $request) {
+    
+
+    public function savedJob()
+    {
+    $user = Auth::user();
+    
+    $favorites = Favorite::where('user_id', $user->id)
+        ->with('job') 
+        ->orderBy('created_at', 'DESC')
+        ->paginate(10);
+
+    return view('job.saved-job', compact('favorites', 'user'));
+    }
+    public function addToFavorite(Request $request) {
     $id = $request->id;
     $job = Job::find($id);
 
@@ -259,20 +264,7 @@ public function addToFavorite(Request $request) {
     }
     return back()->with('success', 'Job added to favorites ❤️');
 }
-
-// 2. عرض قائمة المفضلات
-public function myFavorites() {
-    $user = Auth::user();
-    $favorites = Favorite::where('user_id', $user->id)
-        ->with('job')
-        ->orderBy('created_at', 'DESC')
-        ->paginate(10);
-
-    return view('myFavorites', compact('favorites', 'user'));
-}
-
-// 3. حذف من المفضلة
-public function removeFavorite(Request $request) {
+    public function removeFavorite(Request $request) {
     Favorite::where(['user_id' => Auth::user()->id, 'id' => $request->id])->delete();
     return back()->with('success', 'Removed from favorites.');
 }

@@ -35,8 +35,7 @@ class Job extends Model
             ->withPivot('applied_date')
             ->withTimestamps();
     }
+    public function favorites() {
+        return $this->hasMany(Favorite::class);
+    }
 }
-    // public function category()
-    // {
-    //     return $this->belongsTo(Category::class, 'category');
-    // }

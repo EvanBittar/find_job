@@ -12,12 +12,7 @@ use App\Models\job_applications;
 class jobContorller extends Controller
 {
  public function index(Request $request) {
-    // جلب التصنيفات المتاحة للوظائف النشطة فقط
-    $categories = Job::select('category')
-        ->distinct()
-        ->where('status', 1)
-        ->whereNotNull('category')
-        ->get();
+    $categories = DB::table('jobs')->select('category')->distinct()->get();
 
     $jobs = Job::where('status', 1);
 

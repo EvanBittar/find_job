@@ -1,45 +1,38 @@
 <x-header title="Find Dream Jobs"/>
 <style>
-    /* 1. لون الأرقام العادية (الخلفية شفافة) */
+/* تنسيق أرقام الترقيم (Pagination) */
     #job-pagination .page-link {
-        color: #000000;         /* لون الأرقام أسود */
-        background-color: #fff;  /* خلفية بيضاء */
-        border-color: #dee2e6;  /* إطار رمادي فاتح */
+        color: #333;
+        background-color: #fff;
+        border-color: #dee2e6;
         transition: all 0.3s ease;
     }
 
-    /* 2. اللون عند تمرير الماوس (Hover) */
-    #job-pagination .page-link:hover {
-        color: #ffffff;         /* لون النص أبيض */
-        background-color: #28a745; /* خلفية خضراء */
-        border-color: #28a745;    /* إطار أخضر */
-    }
-
-    /* 3. اللون للصفحة الحالية (Active) */
+    #job-pagination .page-link:hover, 
     #job-pagination .page-item.active .page-link {
-        color: #ffffff;         /* لون النص أبيض */
-        background-color: #28a745; /* خلفية خضراء */
-        border-color: #28a745;    /* إطار أخضر */
+        color: #fff !important;
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
     }
 
-    /* 4. إزالة الإطار الأزرق عند الضغط (Focus) */
     #job-pagination .page-link:focus {
-        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25); /* ظل أخضر خفيف */
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+
+    .sidebar h2 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #333;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
     }
 </style>
 <section class="section-3 py-5 bg-2 ">
     <div class="container">     
         <div class="row">
             <div class="col-6 col-md-10 ">
-                <h2>Find Jobs</h2>  
-            </div>
-            <div class="col-6 col-md-2">
-                <div class="align-end">
-                    <select name="sort" id="sort" class="form-control" onchange="document.getElementById('searchForm').submit();">
-                        <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Latest</option>
-                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest</option>
-                    </select>
-                </div>
+                <h2 class="mb-4">Find Jobs</h2>  
             </div>
         </div>
 
@@ -61,9 +54,9 @@
                     <h2>Category</h2>
                     <select name="category" id="category" class="form-control">
                         <option value="">Select a Category</option>
-                        @foreach($categories as $category)
-                            <option {{ (request('category') == $category->category) ? 'selected' : '' }} value="{{ $category->category }}">
-                                {{ $category->category }}
+                        @foreach($categories as $cat)
+                            <option {{ (request('category') == $cat->category) ? 'selected' : '' }} value="{{ $cat->category }}">
+                                {{ $cat->category }}
                             </option>
                         @endforeach
                     </select>
@@ -97,7 +90,14 @@
                         <div class="col-md-6 col-lg-4"> {{-- تعديل القياس ليناسب الـ Sidebar --}}
                             <div class="card border-0 p-3 shadow mb-4">
                                 <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">{{ $job->title }}</h3>
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <h3 class="border-0 fs-5 pb-2 mb-0">{{ $job->title }}</h3>
+                                        @if($job->status == 1)
+                                            <span class="badge bg-success text-white">Active</span>
+                                        @else
+                                            <span class="badge bg-danger text-white">Expired</span>
+                                        @endif
+                                    </div>
                                     <p>{{ Str::words($job->description, 8) }}</p>
                                     <div class="bg-light p-3 border">
                                         <p class="mb-0">
@@ -124,7 +124,7 @@
 
                         {{-- إضافة روابط الترقيم (Pagination) --}}
                         <div class="col-12 mt-4 d-flex justify-content-center" id="job-pagination">
-                            {{ $jobs->links() }}
+                            {{ $jobs->withQueryString()->links() }}
                         </div>
                         {{-- <div class="col-12 mt-4">
                             {{ $jobs->links('pagination::bootstrap-5') }}

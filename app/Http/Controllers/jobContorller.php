@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Job;
 use App\Models\Favorite;
@@ -10,10 +11,56 @@ use App\Models\job_applications;
 
 class jobContorller extends Controller
 {
-    public function jobs()
-    {
-        return view('job.jobs');
+   public function index(Request $request) {
+    // 1. جلب التصنيفات لعرضها في السايدبار (تأكد من وجود بيانات في جدول jobs)
+    $categories = Job::select('category')
+        ->distinct()
+        ->whereNotNull('category')
+        ->get();
+
+    // 2. بدء الاستعلام (Query Builder)
+    $jobs = Job::query();
+
+    // 3. فلترة بالكلمة المفتاحية (Keyword)
+    if (!empty($request->keyword)) {
+        $jobs->where(function($query) use ($request) {
+            $query->orWhere('title', 'like', '%' . $request->keyword . '%');
+            $query->orWhere('description', 'like', '%' . $request->keyword . '%');
+        });
     }
+
+    // 4. فلترة بالموقع (Location)
+    if (!empty($request->location)) {
+        $jobs->where('location', 'like', '%' . $request->location . '%');
+    }
+
+    // 5. فلترة بالتصنيف (Category)
+    if (!empty($request->category)) {
+        $jobs->where('category', $request->category);
+    }
+
+    // 6. فلترة بنوع العمل (Job Type - Checkboxes)
+    if (!empty($request->job_type)) {
+        // نستخدم whereIn لأنها مصفوفة من الخيارات
+        $jobs->whereIn('job_nature', $request->job_type);
+    }
+
+    // 7. الترتيب (Sort)
+    if ($request->sort == 'oldest') {
+        $jobs->orderBy('created_at', 'ASC');
+    } else {
+        $jobs->orderBy('created_at', 'DESC');
+    }
+
+    // 8. التنفيذ مع الترقيم والحفاظ على الفلاتر في الرابط (withQueryString)
+    $allJobs = $jobs->paginate(9)->withQueryString();
+
+    return view('job.jobs', [
+        'jobs' => $allJobs,
+        'categories' => $categories
+    ]);
+}
+
     public function jobDetail($id)
     {
         $job = Job::where('id',$id)->first();
@@ -216,7 +263,7 @@ public function myFavorites() {
         ->orderBy('created_at', 'DESC')
         ->paginate(10);
 
-    return view('job.my-favorites', compact('favorites', 'user'));
+    return view('myFavorites', compact('favorites', 'user'));
 }
 
 // 3. حذف من المفضلة

@@ -26,7 +26,7 @@ Route::middleware(['guest'])->group(function () {
     Route::put('/account/update-profile', [accountController::class, 'updateProfile'])->name('account.updateProfile');
     Route::put('/account/update-image', [accountController::class, 'updateImage'])->name('account.updateImage');
     
-    Route::get('/jobs',[jobContorller::class,'jobs'])->name('jobs');  
+    Route::get('/jobs',[jobContorller::class,'index'])->name('jobs');  
     Route::get('/post-job',[jobContorller::class,'postJob'])->name('postJob'); 
     Route::get('/saved-jobs',[jobContorller::class,'savedJob'])->name('savedJobs');
     Route::get('/my-jobs',[jobContorller::class,'myJob'])->name('job.myJob');

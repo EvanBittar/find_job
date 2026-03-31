@@ -11,45 +11,38 @@ use App\Models\job_applications;
 
 class jobContorller extends Controller
 {
-   public function index(Request $request) {
+ public function index(Request $request) {
+    // جلب التصنيفات المتاحة للوظائف النشطة فقط
     $categories = Job::select('category')
         ->distinct()
+        ->where('status', 1)
         ->whereNotNull('category')
         ->get();
 
-    $jobs = Job::query();
+    $jobs = Job::where('status', 1);
 
     if (!empty($request->keyword)) {
         $jobs->where(function($query) use ($request) {
-            $query->orWhere('title', 'like', '%' . $request->keyword . '%');
-            $query->orWhere('description', 'like', '%' . $request->keyword . '%');
+            $query->orWhere('title', 'like', '%' . $request->keyword . '%')
+                  ->orWhere('description', 'like', '%' . $request->keyword . '%');
         });
     }
 
-    // 4. فلترة بالموقع (Location)
     if (!empty($request->location)) {
         $jobs->where('location', 'like', '%' . $request->location . '%');
     }
 
-    // 5. فلترة بالتصنيف (Category)
     if (!empty($request->category)) {
         $jobs->where('category', $request->category);
     }
 
-    // 6. فلترة بنوع العمل (Job Type - Checkboxes)
     if (!empty($request->job_type)) {
-        // نستخدم whereIn لأنها مصفوفة من الخيارات
-        $jobs->whereIn('job_nature', $request->job_type);
+        $jobs->whereIn('job_nature', (array)$request->job_type);
     }
 
-    // 7. الترتيب (Sort)
-    if ($request->sort == 'oldest') {
-        $jobs->orderBy('created_at', 'ASC');
-    } else {
-        $jobs->orderBy('created_at', 'DESC');
-    }
+    $sortOrder = ($request->sort == 'oldest') ? 'ASC' : 'DESC';
+    $jobs->orderBy('created_at', $sortOrder);
 
-    // 8. التنفيذ مع الترقيم والحفاظ على الفلاتر في الرابط (withQueryString)
     $allJobs = $jobs->paginate(9)->withQueryString();
 
     return view('job.jobs', [

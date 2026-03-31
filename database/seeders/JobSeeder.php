@@ -45,6 +45,7 @@ class JobSeeder extends Seeder
                 'user_id' => $users->random()->id, // ربط عشوائي بمستخدم موجود
                 'created_at' => now(),
                 'updated_at' => now(),
+                'status' => rand(0, 1), 
             ]);
         }
     }

@@ -61,7 +61,11 @@
                                                 <td>{{ \Carbon\Carbon::parse($job->created_at)->format('d M, Y') }}</td>
                                                 <td>0 Applications</td>
                                                 <td>
-                                                    <div class="job-status text-capitalize">active</div>
+                                                    @if ($job->status == 1)
+                                                        <span class="badge bg-success text-white">Active</span>
+                                                    @else
+                                                        <span class="badge bg-danger text-white">Expired</span>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     <div class="action-dots float-end">

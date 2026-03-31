@@ -12,7 +12,7 @@ use App\Models\job_applications;
 class jobContorller extends Controller
 {
  public function index(Request $request) {
-    $categories = DB::table('jobs')->select('category')->distinct()->get();
+    $categories = DB::table('jobs')->select('category')->whereNotNull('category')->distinct()->get();
 
     $jobs = Job::where('status', 1);
 
@@ -35,8 +35,6 @@ class jobContorller extends Controller
         $jobs->whereIn('job_nature', (array)$request->job_type);
     }
 
-    $sortOrder = ($request->sort == 'oldest') ? 'ASC' : 'DESC';
-    $jobs->orderBy('created_at', $sortOrder);
 
     $allJobs = $jobs->paginate(9)->withQueryString();
 
@@ -190,7 +188,10 @@ class jobContorller extends Controller
         'user_id' => Auth::user()->id,
         'job_id' => $id
     ])->count();
-
+    
+    if ($job->user_id == Auth::user()->id) {
+        return redirect()->back()->with('error', 'You cannot apply to your own job.');
+    }
     if ($jobApplicationCount > 0) {
         return back()->with('error', 'You have already applied to this job');
     }

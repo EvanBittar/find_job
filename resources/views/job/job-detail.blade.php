@@ -52,22 +52,25 @@
                             <div class="jobs_right">
                                 <div class="apply_now">
                                     @if (Auth::check())
-                                    <form action="{{ route('addToFavorite') }}" method="POST" id="favorite-form">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $job->id }}">
-                                        <button type="submit" class="heart_mark border-0 bg-transparent">
-                                            @if($isFavorite)
-                                                <i class="fa fa-heart text-danger" style="font-size: 24px;" aria-hidden="true"></i>
-                                            @else
-                                                <i class="fa fa-heart-o" style="font-size: 24px;" aria-hidden="true"></i>
-                                            @endif
-                                        </button>
-                                    </form>
-                                @else
-                                    <a class="heart_mark" href="{{ route('login') }}">
-                                        <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    </a>
-                                @endif
+                                        {{-- لا تظهر القلب إذا كان المستخدم هو صاحب الوظيفة --}}
+                                        @if (Auth::user()->id != $job->user_id)
+                                            <form action="{{ route('addToFavorite') }}" method="POST" id="favorite-form">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $job->id }}">
+                                                <button type="submit" class="heart_mark border-0 bg-transparent">
+                                                    @if($isFavorite)
+                                                        <i class="fa fa-heart text-danger" style="font-size: 24px;"></i>
+                                                    @else
+                                                        <i class="fa fa-heart-o" style="font-size: 24px;"></i>
+                                                    @endif
+                                                </button>
+                                            </form>
+                                        @endif
+                                    @else
+                                        <a class="heart_mark" href="{{ route('login') }}">
+                                            <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -101,9 +104,15 @@
                         @endif
 
                         <div class="border-top mt-4 pt-4">
-                           @if (Auth::check())
-                                @if ($count > 0)
-                                    <button class="btn btn-secondary btn-lg" disabled>Already Applied</button>
+                            @if (Auth::check())
+                                @if (Auth::user()->id == $job->user_id)
+                                    {{-- إذا كان المستخدم هو صاحب الوظيفة --}}
+                                    <div class="alert alert-info">
+                                        You are the creator of this job post. You can manage applications in your dashboard.
+                                    </div>
+                                    <a href="{{ route('job.myJob') }}" class="btn btn-secondary btn-lg w-100">Manage this Job</a>
+                                @elseif ($count > 0)
+                                    <button class="btn btn-secondary btn-lg w-100" disabled>Already Applied</button>
                                 @else
                                     <form action="{{ route('applyJob') }}" method="POST">
                                         @csrf
@@ -112,8 +121,8 @@
                                     </form>
                                 @endif
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-primary btn-lg">Login to Apply</a>
-                        @endif
+                                <a href="{{ route('login') }}" class="btn btn-primary btn-lg w-100">Login to Apply</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -159,39 +168,6 @@
         </div>
     </div>
 </section>
-{{-- 
-<script type="text/javascript">
-    function applyJob(id) {
-        if (confirm("Are you sure you want to apply for this job?")) {
-            $.ajax({
-                url: '{{ route("applyJob") }}',
-                type: 'post',
-                data: {
-                    id: id,
-                    _token: '{{ csrf_token() }}'
-                },
-                dataType: 'json',
-                success: function(response) {
-                    alert(response.message);
-                    if (response.status) {
-                        window.location.href = "{{ route('jobApplied') }}";
-                    }
-                }
-            });
-        }
-    }
-</script> --}}
-{{-- @if(Session::has('success'))
-    <div class="alert alert-success">
-        {{ Session::get('success') }}
-    </div>
-@endif
-
-@if(Session::has('error'))
-    <div class="alert alert-danger">
-        {{ Session::get('error') }}
-    </div>
-@endif --}}
 <x-footer>
     © 2026 xyz company, all right reserved
 </x-footer>
